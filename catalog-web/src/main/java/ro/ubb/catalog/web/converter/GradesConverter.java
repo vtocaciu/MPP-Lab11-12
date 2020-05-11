@@ -8,11 +8,7 @@ import ro.ubb.catalog.web.dto.GradeDto;
 public class GradesConverter extends BaseConverter<Grade, GradeDto> {
     @Override
     public Grade convertDtoToModel(GradeDto dto) {
-        Grade g = Grade.builder()
-                .idLabProblem(dto.getIdLabProblem())
-                .idStudent(dto.getIdStudent())
-                .grade(dto.getGrade())
-                .build();
+        Grade g = new Grade(dto.getIdStudent(), dto.getIdLabProblem(), dto.getGrade());
         g.setId(dto.getId());
         return g;
     }

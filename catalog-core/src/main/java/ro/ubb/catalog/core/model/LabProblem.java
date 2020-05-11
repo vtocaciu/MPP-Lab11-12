@@ -8,12 +8,18 @@ import javax.persistence.Entity;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
-@Builder
 public class LabProblem extends BaseEntity<Long> {
     private String problemStatement;
     private int labNumber;
 
+    @Override
+    public String toString() {
+        return "LabProblem{" +
+                ", problemStatement='" + problemStatement + '\'' +
+                ", labNumber=" + labNumber +
+                "} " + super.toString();
+    }
 }

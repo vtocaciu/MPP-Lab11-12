@@ -12,8 +12,12 @@ import {StudentService} from './students/shared/student.service';
 import { GradesComponent } from './grades/grades.component';
 import { GradesDetailComponent } from './grades/grades-detail/grades-detail.component';
 import { GradesListComponent } from './grades/grades-list/grades-list.component';
+import { LabproblemsComponent } from './labproblems/labproblems.component';
+import { LabproblemsDetailComponent } from './labproblems/labproblems-detail/labproblems-detail.component';
+import { LabproblemsListComponent } from './labproblems/labproblems-list/labproblems-list.component';
+import {LabproblemsService} from "./labproblems/shared/labproblems.service";
 
-
+// @ts-ignore
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,6 +27,9 @@ import { GradesListComponent } from './grades/grades-list/grades-list.component'
     GradesComponent,
     GradesDetailComponent,
     GradesListComponent,
+    LabproblemsComponent,
+    LabproblemsDetailComponent,
+    LabproblemsListComponent,
 
 
 
@@ -33,7 +40,7 @@ import { GradesListComponent } from './grades/grades-list/grades-list.component'
     HttpClientModule,
     AppRoutingModule,
   ],
-  providers: [StudentService],
+  providers: [LabproblemsService, StudentService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Student} from "../shared/student.model";
-import {StudentService} from "../shared/student.service";
-import {Router} from "@angular/router";
+import {Student} from '../shared/student.model';
+import {StudentService} from '../shared/student.service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -14,6 +14,7 @@ export class StudentListComponent implements OnInit {
   errorMessage: string;
   students: Array<Student>;
   selectedStudent: Student;
+  addStudent: Student;
 
   constructor(private studentService: StudentService,
               private router: Router) {
@@ -21,6 +22,7 @@ export class StudentListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getStudents();
+    this.addStudent={};
   }
 
   getStudents() {
@@ -37,6 +39,25 @@ export class StudentListComponent implements OnInit {
 
   gotoDetail(): void {
     this.router.navigate(['/student/detail', this.selectedStudent.id]);
+  }
+
+  delete(student: Student): void {
+    this.studentService.delete(student.id);
+    window.location.reload();
+  }
+
+  add(): void {
+    console.log(this.addStudent);
+    this.studentService.add(this.addStudent);
+    window.location.reload();
+  }
+
+  setStudentName(event): void {
+    this.addStudent.studentName = event.target.value;
+  }
+
+  setStudentGroup(event): void {
+    this.addStudent.studentGroup = event.target.value;
   }
 
 }

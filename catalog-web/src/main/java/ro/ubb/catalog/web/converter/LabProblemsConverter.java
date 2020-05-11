@@ -8,9 +8,7 @@ import ro.ubb.catalog.web.dto.LabProblemDto;
 public class LabProblemsConverter extends BaseConverter<LabProblem, LabProblemDto> {
     @Override
     public LabProblem convertDtoToModel(LabProblemDto dto) {
-        LabProblem l = LabProblem.builder()
-                .labNumber(dto.getLabNumber())
-                .problemStatement(dto.getProblemStatement()).build();
+        LabProblem l = new LabProblem(dto.getProblemStatement(), dto.getLabNumber());
         l.setId(dto.getId());
         return l;
     }

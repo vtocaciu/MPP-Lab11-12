@@ -16,8 +16,6 @@ export class StudentService {
   }
 
   getStudents(): Observable<Student[]> {
-    console.log(this.httpClient
-      .get<Array<Student>>(this.studentsUrl));
     return this.httpClient
       .get<Array<Student>>(this.studentsUrl);
   }
@@ -35,4 +33,12 @@ export class StudentService {
       .put<Student>(url, student);
   }
 
+  delete(id: number): void {
+    const url = `${this.studentsUrl}/${id}`;
+    this.httpClient.delete(url).subscribe(data => console.log(data));
+  }
+
+  add(student: Student): void {
+    this.httpClient.post(this.studentsUrl, student).subscribe();
+  }
 }
