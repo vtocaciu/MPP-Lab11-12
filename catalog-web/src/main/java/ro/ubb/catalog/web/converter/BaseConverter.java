@@ -1,5 +1,6 @@
 package ro.ubb.catalog.web.converter;
 
+import org.springframework.data.domain.Page;
 import ro.ubb.catalog.core.model.BaseEntity;
 import ro.ubb.catalog.web.dto.BaseDto;
 
@@ -32,5 +33,9 @@ public abstract class BaseConverter<Model extends BaseEntity<Long>, Dto extends 
         return models.stream()
                 .map(model -> convertModelToDto(model))
                 .collect(Collectors.toList());
+    }
+
+    public List<Dto> convertModelsToDtoPage(Page<Model> models){
+        return models.stream().map(model -> convertModelToDto(model)).collect(Collectors.toList());
     }
 }

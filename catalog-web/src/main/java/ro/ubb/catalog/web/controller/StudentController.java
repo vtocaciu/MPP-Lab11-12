@@ -3,6 +3,7 @@ package ro.ubb.catalog.web.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import ro.ubb.catalog.core.model.Exception.MyException;
 import ro.ubb.catalog.core.model.Student;
@@ -75,10 +76,16 @@ public class StudentController {
         return (studentConverter.convertModelsToDtos(studentService.filterStudentsByGroup(group)));
     }
 
-    @RequestMapping(value = "/students/sort", method = RequestMethod.GET)
-    List<StudentDto> getAllSorted(){
+    @RequestMapping(value = "/students/sort/{dir}/{fields}", method = RequestMethod.GET)
+    List<StudentDto> getAllSorted(@PathVariable String dir, @PathVariable String fields){
         log.trace("getAllSorted - method");
-        return (studentConverter.convertModelsToDtos(studentService.getAllStudentsSorted()));
+        return (studentConverter.convertModelsToDtos(studentService.getAllStudentsSorted(dir, fields)));
+    }
+
+    @RequestMapping(value ="/students/{pageSize}/{pageNumber}", method = RequestMethod.GET)
+    List<StudentDto> pageStudents(@PathVariable int pageSize, @PathVariable int pageNumber){
+        log.trace("page Students - method");
+        return studentConverter.convertModelsToDtoPage(studentService.pageStudents(pageSize, pageNumber));
     }
 
 }

@@ -7,14 +7,41 @@
 </div>
 
 <h2>Students</h2>
-<ul class="students">
-    <li *ngFor="let student of students "
-        [class.selected]="student === selectedStudent"
-        (click)="onSelect(student)">
-        {{student.studentName}}
-    </li>
-</ul>
+<div class="mat-elevation-z8 small">
+  <mat-label>Filter:  </mat-label>
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event)" >
+  </mat-form-field>
+  <table mat-table [dataSource]="dataSource" matSort >
 
-Name: <input class="students" placeholder="studentName" (keyup)="setStudentName($event)"><br>
-Group: <input class="students" placeholder="studentGroup" (keyup)="setStudentGroup($event)"><br>
+  <ng-container matColumnDef="studentName">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="onSelect(element)"> {{element.studentName}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="id" >
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="onSelect(element)"> {{element.id}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="studentGroup">
+    <mat-header-cell *matHeaderCellDef mat-sort-header=""> Group </mat-header-cell>
+    <mat-cell *matCellDef="let element" (click)="onSelect(element)"> {{element.studentGroup}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let myRowData; columns: displayedColumns"></mat-row>
+
+</table>
+</div>
+<br>
+<br>
+<br>
+<div>
+<a class="page" *ngFor="let item of arrayOne(totalPages); let i = index;" (click)="goToPage(i+1)">{{i+1}}</a>
+</div>
+<br>
+<br>
+Page Size: <input class="students" type="number" min=1 placeholder="pageSize" (click)="setPageSize($event)" (keyup)="setPageSize($event)" value="5">
+<br>
+Name: <input type="text" class="students" placeholder="studentName" (keyup)="setStudentName($event)" required><br>
+Group: <input type="number" class="students" placeholder="studentGroup" (keyup)="setStudentGroup($event)" required ><br>
 <button class="button4" (click)="add()">Add new student</button>

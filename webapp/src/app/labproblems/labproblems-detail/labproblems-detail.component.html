@@ -1,1 +1,16 @@
-<p>labproblems-detail works!</p>
+<div *ngIf="lab">
+  <h2>Lab {{lab.problemStatement}} details</h2>
+  <div>
+    <label>Id: </label> {{lab.id}}
+  </div>
+  <div>
+    <label>Statement: </label> {{lab.problemStatement}}
+    <input [(ngModel)]="lab.problemStatement" placeholder="problemStatement">
+  </div>
+  <div>
+    <label>Lab number: </label> {{lab.labNumber}}
+    <input [(ngModel)]="lab.labNumber" placeholder="labNumber">
+  </div>
+  <button (click)="goBack()">Back</button>
+  <button (click)="update()">Update</button>
+</div>

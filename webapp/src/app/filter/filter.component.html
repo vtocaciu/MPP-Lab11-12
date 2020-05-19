@@ -1,0 +1,33 @@
+<select [(ngModel)]="selectedOption" >
+  <option value="student">Student</option>
+  <option value="labproblem">LabProblem</option>
+</select>
+<br>
+<br>
+<br>
+<select *ngIf="selectedOption=='student'" [(ngModel)]="selectedField">
+  <option value="studentGroup">StudentGroup</option>
+  <option value="studentName">StudentName</option>
+</select>
+
+<select *ngIf="selectedOption=='labproblem'" [(ngModel)]="selectedField">
+  <option value="labnumber">LabNumber</option>
+  <option value="problemStatement">ProblemStatement</option>
+</select>
+<br>
+<br>
+<br>
+<div *ngIf="selectedField">
+Value <input type="text" placeholder="value" [(ngModel)]="selectedValue">
+</div>
+<button (click)="filter()">Filter</button>
+<ul *ngIf="allStudents" class="all">
+  <li *ngFor="let student of allStudents">
+    {{student.id}}, {{student.studentName}}, {{student.studentGroup}}
+  </li>
+</ul>
+<ul *ngIf="allLabs" class="all">
+  <li *ngFor="let lab of allLabs">
+    {{lab.id}}, {{lab.problemStatement}}, {{lab.labNumber}}
+  </li>
+</ul>

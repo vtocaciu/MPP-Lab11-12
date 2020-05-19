@@ -2,15 +2,47 @@
   <h2>
     {{selectedLab.problemStatement | uppercase}} was selected
   </h2>
-<!--  <button (click)="gotoDetail()">View Details</button>-->
-<!--  <button (click)="delete(selectedStudent)">Delete</button>-->
+  <button (click)="goToDetail()">View Details</button>
+  <button (click)="delete(selectedLab)">Delete</button>
 </div>
 
 <h2>Labs</h2>
-<ul>
-  <li *ngFor="let lab of labs "
-      [class.selected]="lab === selectedLab"
-      (click)="onSelect(lab)">
-    {{lab.problemStatement}}
-  </li>
-</ul>
+<div class="mat-elevation-z8 small">
+  <mat-label>Filter:  </mat-label>
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event)" >
+  </mat-form-field>
+  <table mat-table [dataSource]="dataSource" matSort >
+
+    <ng-container matColumnDef="problemStatement">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Statement </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="onSelect(element)"> {{element.problemStatement}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="id" >
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="onSelect(element)"> {{element.id}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="labNumber">
+      <mat-header-cell *matHeaderCellDef mat-sort-header="labNumber"> Lab number </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="onSelect(element)"> {{element.labNumber}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let myRowData; columns: displayedColumns"></mat-row>
+
+  </table>
+</div>
+<br>
+<br>
+<br>
+<div>
+  <a class="page" *ngFor="let item of arrayOne(totalPages); let i = index;" (click)="goToPage(i+1)">{{i+1}}</a>
+</div>
+<br>
+<br>
+Page Size: <input class="students" type="number" min=1 placeholder="pageSize" (click)="setPageSize($event)" (keyup)="setPageSize($event)" value="5">
+<br>
+
+Problem statement: <input class="labs" placeholder="statement" (keyup)="setProblemStatement($event)"><br>
+Lab number: <input class="labs" placeholder="labNumber" (keyup)="setLabNumber($event)"><br>
+<button (click)="add()">Add new lab</button>

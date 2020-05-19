@@ -1,1 +1,70 @@
-<p>grades-list works!</p>
+<div *ngIf="selectedGrade">
+  <h2>
+    {{selectedGrade.id }} was selected
+  </h2>
+  <button (click)="goToDetail()">View Details</button>
+  <button (click)="delete(selectedGrade)">Delete</button>
+</div>
+
+<h2>grades</h2>
+<div class="mat-elevation-z8 small">
+  <mat-label>Filter:  </mat-label>
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event)" >
+  </mat-form-field>
+  <table mat-table [dataSource]="dataSource" matSort >
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="onSelect(element)"> {{element.id}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="grade" >
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Grade </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="onSelect(element)"> {{element.grade}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="idLabProblem">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Id Lab Problem </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="onSelect(element)"> {{element.idLabProblem}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="idStudent">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Id Student </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="onSelect(element)"> {{element.idStudent}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let myRowData; columns: displayedColumns"></mat-row>
+
+  </table>
+</div>
+<br>
+<br>
+<br>
+<div>
+  <a class="page" *ngFor="let item of arrayOne(totalPages); let i = index;" (click)="goToPage(i+1)">{{i+1}}</a>
+</div>
+<br>
+<br>
+Page Size: <input class="students" type="number" min=1 placeholder="pageSize" (click)="setPageSize($event)" (keyup)="setPageSize($event)" value="5">
+<br>
+
+ <mat-form-field>
+   Student
+  <mat-select [(ngModel)]="selectStudent" name="student" disableOptionCentering panelClass="myPanelClass">
+    <mat-option *ngFor="let student of students" [value]="student.id">
+      {{student.id}}, {{student.studentName}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field>
+Lab Problems
+<mat-select [(ngModel)]="selectLab" name="student" disableOptionCentering panelClass="myPanelClass">
+  <mat-option *ngFor="let lab of labs" [value]="lab.id" class="left">
+    {{lab.id}}, {{lab.problemStatement}}
+  </mat-option>
+</mat-select>
+</mat-form-field>
+<button (click)="add()">Assign</button>
+<br>
+
+
+

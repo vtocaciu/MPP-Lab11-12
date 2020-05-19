@@ -1,6 +1,7 @@
 package ro.ubb.catalog.core.service;
 
 
+import org.springframework.data.domain.Page;
 import ro.ubb.catalog.core.model.Exception.MyException;
 import ro.ubb.catalog.core.model.Grade;
 
@@ -24,5 +25,8 @@ public interface GradeServiceInterface {
 
     void deleteGradesWithLabProblem(Long labProblemId);
 
-    List<Grade> getAllGradesSorted();
-   }
+    List<Grade> getAllGradesSorted(String dir, String fields);
+
+    public Page<Grade> pageGrades(int pageSize, int pageNumber);
+
+}

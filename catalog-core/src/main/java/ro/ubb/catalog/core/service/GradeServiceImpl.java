@@ -3,10 +3,15 @@ package ro.ubb.catalog.core.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ro.ubb.catalog.core.model.Exception.MyException;
 import ro.ubb.catalog.core.model.Grade;
+import ro.ubb.catalog.core.model.LabProblem;
+import ro.ubb.catalog.core.model.Student;
 import ro.ubb.catalog.core.model.Validator.GradeValidator;
 import ro.ubb.catalog.core.model.Validator.ValidatorException;
 import ro.ubb.catalog.core.repository.GradesRepository;
@@ -137,17 +142,45 @@ public class GradeServiceImpl implements GradeServiceInterface {
 
 
     @Override
-    public List<Grade> getAllGradesSorted() {
+    public List<Grade> getAllGradesSorted(String dir, String fields) {
         log.trace("getAllGradesSorted - method entered");
-        Sort sort1 = new Sort(Sort.Direction.ASC, "id"); //sort by id
-        Sort sort2 = new Sort(Sort.Direction.ASC, "idStudent"); //sort asc by idStudent
-        Sort sort3 = new Sort(Sort.Direction.ASC, "idLabProblem"); //sort asc by idLabProblem
-        Sort sort4 = new Sort(Sort.Direction.ASC, "grade"); //sort asc by grade
-        Sort sort5 = new Sort(Sort.Direction.DESC, "idStudent", "grade"); //sort idStudent by group and desc by grade
-        Sort sort6 = new Sort(Sort.Direction.DESC, "idLabProblem").and(new Sort(Sort.Direction.ASC, "grade")); //sort desc by idLabProblem and asc by grade
+//        Sort sort1 = new Sort(Sort.Direction.ASC, "id"); //sort by id
+//        Sort sort2 = new Sort(Sort.Direction.ASC, "idStudent"); //sort asc by idStudent
+//        Sort sort3 = new Sort(Sort.Direction.ASC, "idLabProblem"); //sort asc by idLabProblem
+//        Sort sort4 = new Sort(Sort.Direction.ASC, "grade"); //sort asc by grade
+//        Sort sort5 = new Sort(Sort.Direction.DESC, "idStudent", "grade"); //sort idStudent by group and desc by grade
+//        Sort sort6 = new Sort(Sort.Direction.DESC, "idLabProblem").and(new Sort(Sort.Direction.ASC, "grade")); //sort desc by idLabProblem and asc by grade
 
-        List<Grade> all = (List<Grade>) gradesRepo.findAll(sort1);
+        String[] directions = dir.split(",");
+        String[] field = fields.split(",");
+        Sort sort = null;
+        for(int i = 0; i < directions.length; i++)
+        {
+            if(directions[i].equals("ASC"))
+                if(sort == null) {
+                    sort = new Sort(Sort.Direction.ASC, field[i]);
+                }
+                else{
+                    sort = sort.and(new Sort(Sort.Direction.ASC, field[i]));
+                }
+            if(directions[i].equals("DESC"))
+                if(sort == null) {
+                    sort = new Sort(Sort.Direction.DESC, field[i]);
+                }
+                else{
+                    sort = sort.and(new Sort(Sort.Direction.DESC, field[i]));
+                }
+        }
+
+        List<Grade> all = (List<Grade>) gradesRepo.findAll(sort);
         return all;
+    }
+
+    @Override
+    public Page<Grade> pageGrades(int pageSize, int pageNumber) {
+        log.trace("pageable students");
+        Pageable page = PageRequest.of(pageNumber-1, pageSize);
+        return gradesRepo.findAll(page);
     }
 
 }

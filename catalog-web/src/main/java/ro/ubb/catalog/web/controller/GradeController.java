@@ -9,6 +9,8 @@ import ro.ubb.catalog.core.model.Grade;
 import ro.ubb.catalog.core.service.GradeServiceInterface;
 import ro.ubb.catalog.web.converter.GradesConverter;
 import ro.ubb.catalog.web.dto.GradeDto;
+import ro.ubb.catalog.web.dto.LabProblemDto;
+
 import java.util.List;
 
 
@@ -85,9 +87,15 @@ public class GradeController {
         gradeService.deleteGradesWithLabProblem(id);
     }
 
-    @RequestMapping(value = "/grade/sort", method = RequestMethod.GET)
-    List<GradeDto> getAllGradesSorted(){
+    @RequestMapping(value = "/grade/sort/{dir}/{fields}", method = RequestMethod.GET)
+    List<GradeDto> getAllGradesSorted(@PathVariable String dir, @PathVariable String fields){
         log.trace("getAllGradesSorted - method");
-        return (gradesConverter.convertModelsToDtos(gradeService.getAllGradesSorted()));
+        return (gradesConverter.convertModelsToDtos(gradeService.getAllGradesSorted(dir,fields)));
+    }
+
+    @RequestMapping(value ="/grade/{pageSize}/{pageNumber}", method = RequestMethod.GET)
+    List<GradeDto> pageGrades(@PathVariable int pageSize, @PathVariable int pageNumber){
+        log.trace("page Labs - method");
+        return gradesConverter.convertModelsToDtoPage(gradeService.pageGrades(pageSize, pageNumber));
     }
 }

@@ -1,0 +1,28 @@
+<select [(ngModel)]="selectedOption" >
+  <option value="student">Student</option>
+  <option value="labproblem">LabProblem</option>
+  <option value="grade">Grade</option>
+</select>
+<br>
+<div *ngIf="selectedOption" >
+  Directions: <input type="text" [(ngModel)]="dir">
+  Fields: <input type="text" [(ngModel)]="fields">
+</div>
+<br>
+<button (click)="sort()">Get Sorted</button>
+<ol *ngIf="labs" class="all">
+  <li *ngFor="let lab of labs">
+    {{lab.id}}, {{lab.problemStatement}}, {{lab.labNumber}}
+  </li>
+</ol>
+
+<ol *ngIf="students" class="all">
+  <li *ngFor="let st of students">
+    {{st.id}}, {{st.studentName}}, {{st.studentGroup}}
+  </li>
+</ol>
+<ol *ngIf="grades" class="all">
+  <li *ngFor="let gr of grades">
+    {{gr.id}}, {{gr.idStudent}}, {{gr.idLabProblem}}, {{gr.grade}}
+  </li>
+</ol>

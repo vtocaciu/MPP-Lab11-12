@@ -11,8 +11,14 @@ import {map} from 'rxjs/operators';
 @Injectable()
 export class StudentService {
   private studentsUrl = 'http://localhost:8080/api/students';
+  private gradeUrl = 'http://localhost:8080/api/grade/student';
 
   constructor(private httpClient: HttpClient) {
+  }
+
+  getStudentsPage(pageSize, pageNumber): Observable<Student[]> {
+    const url = `${this.studentsUrl}/${pageSize}/${pageNumber}`;
+    return this.httpClient.get<Array<Student>>(url);
   }
 
   getStudents(): Observable<Student[]> {
@@ -33,12 +39,14 @@ export class StudentService {
       .put<Student>(url, student);
   }
 
-  delete(id: number): void {
+  delete(id: number): Observable<Student> {
     const url = `${this.studentsUrl}/${id}`;
-    this.httpClient.delete(url).subscribe(data => console.log(data));
+    const grUrl = `${this.gradeUrl}/${id}`;
+    this.httpClient.delete(grUrl).subscribe();
+    return this.httpClient.delete<Student>(url);
   }
 
-  add(student: Student): void {
-    this.httpClient.post(this.studentsUrl, student).subscribe();
+  add(student: Student): Observable<Student> {
+    return this.httpClient.post<Student>(this.studentsUrl, student);
   }
 }

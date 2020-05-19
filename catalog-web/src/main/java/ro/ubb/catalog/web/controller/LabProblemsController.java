@@ -9,6 +9,7 @@ import ro.ubb.catalog.core.model.LabProblem;
 import ro.ubb.catalog.core.service.LabProblemsServiceInterface;
 import ro.ubb.catalog.web.converter.LabProblemsConverter;
 import ro.ubb.catalog.web.dto.LabProblemDto;
+import ro.ubb.catalog.web.dto.StudentDto;
 
 import java.util.List;
 
@@ -75,9 +76,15 @@ public class LabProblemsController {
         return (labProblemConverter.convertModelsToDtos(labProblemService.filterProblemsByLabNumber(number)));
     }
 
-    @RequestMapping(value = "/lab/sort", method = RequestMethod.GET)
-    List<LabProblemDto> getAllSorted(){
+    @RequestMapping(value = "/lab/sort/{dir}/{fields}", method = RequestMethod.GET)
+    List<LabProblemDto> getAllSorted(@PathVariable String dir, @PathVariable String fields){
         log.trace("getAllSorted - method");
-        return (labProblemConverter.convertModelsToDtos(labProblemService.getAllLabSorted()));
+        return (labProblemConverter.convertModelsToDtos(labProblemService.getAllLabSorted(dir, fields)));
+    }
+
+    @RequestMapping(value ="/lab/{pageSize}/{pageNumber}", method = RequestMethod.GET)
+    List<LabProblemDto> pageLabs(@PathVariable int pageSize, @PathVariable int pageNumber){
+        log.trace("page Labs - method");
+        return labProblemConverter.convertModelsToDtoPage(labProblemService.pageLabs(pageSize, pageNumber));
     }
 }

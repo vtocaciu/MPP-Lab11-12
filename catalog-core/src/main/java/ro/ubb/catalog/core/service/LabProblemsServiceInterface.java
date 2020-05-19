@@ -2,8 +2,10 @@ package ro.ubb.catalog.core.service;
 
 
 
+import org.springframework.data.domain.Page;
 import ro.ubb.catalog.core.model.Exception.MyException;
 import ro.ubb.catalog.core.model.LabProblem;
+import ro.ubb.catalog.core.model.Student;
 
 import java.util.List;
 import java.util.Set;
@@ -23,5 +25,8 @@ public interface LabProblemsServiceInterface {
 
     LabProblem getLabProblemById(Long id) throws MyException;
 
-    List<LabProblem> getAllLabSorted();
+    List<LabProblem> getAllLabSorted(String dir, String fields);
+
+    Page<LabProblem> pageLabs(int pageSize, int pageNumber);
+
 }

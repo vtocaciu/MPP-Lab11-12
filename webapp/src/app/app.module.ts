@@ -16,6 +16,18 @@ import { LabproblemsComponent } from './labproblems/labproblems.component';
 import { LabproblemsDetailComponent } from './labproblems/labproblems-detail/labproblems-detail.component';
 import { LabproblemsListComponent } from './labproblems/labproblems-list/labproblems-list.component';
 import {LabproblemsService} from "./labproblems/shared/labproblems.service";
+import {GradeService} from "./grades/shared/grade.service";
+import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatSelectModule} from "@angular/material/select";
+import { FilterComponent } from './filter/filter.component';
+import { SortComponent } from './sort/sort.component';
+import {FilterService} from "./filter/filter.service";
+import {SortService} from "./sort/sort.service";
 
 // @ts-ignore
 @NgModule({
@@ -30,6 +42,9 @@ import {LabproblemsService} from "./labproblems/shared/labproblems.service";
     LabproblemsComponent,
     LabproblemsDetailComponent,
     LabproblemsListComponent,
+    FilterComponent,
+    SortComponent
+
 
 
 
@@ -39,8 +54,15 @@ import {LabproblemsService} from "./labproblems/shared/labproblems.service";
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
+    MatTableModule,
+    MatSortModule,
+    BrowserAnimationsModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
   ],
-  providers: [LabproblemsService, StudentService],
+  providers: [LabproblemsService, StudentService, GradeService, FilterService, SortService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -3,14 +3,17 @@ package ro.ubb.catalog.core.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ro.ubb.catalog.core.model.Exception.MyException;
 import ro.ubb.catalog.core.model.LabProblem;
+import ro.ubb.catalog.core.model.Student;
 import ro.ubb.catalog.core.model.Validator.LabProblemsValidator;
 import ro.ubb.catalog.core.model.Validator.ValidatorException;
 import ro.ubb.catalog.core.repository.LabProblemsRepository;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -127,15 +130,42 @@ public class LabProblemServiceImpl implements LabProblemsServiceInterface {
 
     }
     @Override
-    public List<LabProblem> getAllLabSorted() {
-        Sort sort1 = new Sort(Sort.Direction.ASC, "id"); //sort by id
-        Sort sort2 = new Sort(Sort.Direction.ASC, "problemStatement"); //sort asc by problemStatement
-        Sort sort3 = new Sort(Sort.Direction.ASC, "labNumber"); //sort asc by labNumber
-        Sort sort4 = new Sort(Sort.Direction.DESC, "labNumber", "problemStatement"); //sort desc by labNumber and desc by problemStatement
-        Sort sort5 = new Sort(Sort.Direction.DESC, "labNumber").and(new Sort(Sort.Direction.ASC, "problemStatement")); //sort desc by labNumber and asc by problemStatement
+    public List<LabProblem> getAllLabSorted(String dir, String fields) {
+//        Sort sort1 = new Sort(Sort.Direction.ASC, "id"); //sort by id
+//        Sort sort2 = new Sort(Sort.Direction.ASC, "problemStatement"); //sort asc by problemStatement
+//        Sort sort3 = new Sort(Sort.Direction.ASC, "labNumber"); //sort asc by labNumber
+//        Sort sort4 = new Sort(Sort.Direction.DESC, "labNumber", "problemStatement"); //sort desc by labNumber and desc by problemStatement
+//        Sort sort5 = new Sort(Sort.Direction.DESC, "labNumber").and(new Sort(Sort.Direction.ASC, "problemStatement")); //sort desc by labNumber and asc by problemStatement
 
 
-        List<LabProblem> all = (List<LabProblem>) labProblemsRepo.findAll(sort2);
+        String[] directions = dir.split(",");
+        String[] field = fields.split(",");
+        Sort sort = null;
+        for(int i = 0; i < directions.length; i++)
+        {
+            if(directions[i].equals("ASC"))
+                if(sort == null) {
+                    sort = new Sort(Sort.Direction.ASC, field[i]);
+                }
+                else{
+                    sort = sort.and(new Sort(Sort.Direction.ASC, field[i]));
+                }
+            if(directions[i].equals("DESC"))
+                if(sort == null) {
+                    sort = new Sort(Sort.Direction.DESC, field[i]);
+                }
+                else{
+                    sort = sort.and(new Sort(Sort.Direction.DESC, field[i]));
+                }
+        }
+        List<LabProblem> all = (List<LabProblem>) labProblemsRepo.findAll(sort);
         return all;
+    }
+
+    @Override
+    public Page<LabProblem> pageLabs(int pageSize, int pageNumber) {
+        log.trace("pageable labs");
+        Pageable page = PageRequest.of(pageNumber-1, pageSize);
+        return labProblemsRepo.findAll(page);
     }
 }

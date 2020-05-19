@@ -1,1 +1,19 @@
 <p>grades-detail works!</p>
+<div *ngIf="grade">
+  <h2>Grade {{grade.id}} details</h2>
+  <div>
+    <label>Id: </label> {{grade.id}}
+  </div>
+  <div>
+    <label>IdStudent: </label> {{grade.idStudent}}
+  </div>
+  <div>
+    <label>IdLab: </label> {{grade.idLabProblem}}
+  </div>
+  <div>
+    <label>Grade: </label> {{grade.grade}}
+    <input [(ngModel)]="grade.grade" placeholder="grade">
+  </div>
+  <button (click)="goBack()">Back</button>
+  <button (click)="update()">Update</button>
+</div>

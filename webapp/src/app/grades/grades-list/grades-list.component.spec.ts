@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GradesListComponent } from './grades-list.component';
+import {MatTableModule} from '@angular/material/table';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('GradesListComponent', () => {
   let component: GradesListComponent;
@@ -8,7 +10,8 @@ describe('GradesListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GradesListComponent ]
+      declarations: [ GradesListComponent ],
+      imports : [MatTableModule, BrowserAnimationsModule]
     })
     .compileComponents();
   }));

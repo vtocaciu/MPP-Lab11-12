@@ -1,9 +1,11 @@
 package ro.ubb.catalog.core.service;
 
 
+import org.springframework.data.domain.Page;
 import ro.ubb.catalog.core.model.Exception.MyException;
 import ro.ubb.catalog.core.model.Student;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -22,5 +24,7 @@ public interface StudentServiceInterface {
 
     Student getStudentById(Long id) throws MyException;
 
-    List<Student> getAllStudentsSorted();
+    List<Student> getAllStudentsSorted(String dir, String fields);
+
+    Page<Student> pageStudents(int pageSize, int pageNumber);
 }
